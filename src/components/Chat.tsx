@@ -9,13 +9,21 @@ const Chat = () => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    console.log('Connecting to server...')
+    if ('Notification' in window && Notification.permission !== 'granted') {
+      Notification.requestPermission()
+    }
+  }, [])
+
+  useEffect(() => {
     socket.current = new WebSocket('ws://localhost:4000')
 
     socket.current.onmessage = (event) => {
       const msg: MessageType = JSON.parse(event.data)
-      console.log('Received message from server:', msg)
       setMessages((prevMessages) => [...prevMessages, msg])
+
+      if (msg.user !== 'Me') {
+        sendNotification(msg.text)
+      }
     }
 
     return () => {
@@ -38,6 +46,16 @@ const Chat = () => {
       }
       socket.current?.send(JSON.stringify(msg))
       setMessage('')
+    }
+  }
+
+  const sendNotification = (message: string) => {
+    console.log('Sending notification:', message, Notification.permission)
+    if (Notification.permission === 'granted') {
+      const not = new Notification('New Message', {
+        body: message,
+      })
+      console.log('Notification sent:', not)
     }
   }
 
