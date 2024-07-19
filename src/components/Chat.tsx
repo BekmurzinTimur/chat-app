@@ -8,10 +8,12 @@ const Chat = () => {
   const socket = useRef<WebSocket | null>(null)
 
   useEffect(() => {
+    console.log('Connecting to server...')
     socket.current = new WebSocket('ws://localhost:4000')
 
     socket.current.onmessage = (event) => {
       const msg: MessageType = JSON.parse(event.data)
+      console.log('Received message from server:', msg)
       setMessages((prevMessages) => [...prevMessages, msg])
     }
 
@@ -28,7 +30,6 @@ const Chat = () => {
         user: 'Me',
       }
       socket.current?.send(JSON.stringify(msg))
-      setMessages((prevMessages) => [...prevMessages, msg])
       setMessage('')
     }
   }
