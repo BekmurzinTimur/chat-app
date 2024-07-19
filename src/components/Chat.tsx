@@ -6,6 +6,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<MessageType[]>([])
   const [message, setMessage] = useState('')
   const socket = useRef<WebSocket | null>(null)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     console.log('Connecting to server...')
@@ -21,6 +22,12 @@ const Chat = () => {
       socket.current?.close()
     }
   }, [])
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages])
 
   const sendMessage = () => {
     if (message) {
@@ -40,6 +47,7 @@ const Chat = () => {
         {messages.map((msg, index) => (
           <Message key={index} {...msg} />
         ))}
+        <div ref={messagesEndRef} />
       </div>
       <MessageInput
         message={message}
