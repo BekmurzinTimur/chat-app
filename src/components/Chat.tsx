@@ -50,12 +50,10 @@ const Chat = () => {
   }
 
   const sendNotification = (message: string) => {
-    console.log('Sending notification:', message, Notification.permission)
     if (Notification.permission === 'granted') {
-      const not = new Notification('New Message', {
+      new Notification('New Message', {
         body: message,
       })
-      console.log('Notification sent:', not)
     }
   }
 
