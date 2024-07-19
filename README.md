@@ -1,4 +1,4 @@
-# Online Chat Application
+# WebSocket Chat Application
 
 ## Prerequisites
 - Node.js
@@ -9,7 +9,7 @@
 
 1. Clone the repository.
 2. Navigate to the `server` directory and run `npm install`.
-3. Start the server by running `npm start / node server.js`.
+3. Start the server by running `npm start / node server.js`. Make sure port 4000 is not in use.
 4. Navigate to the root directory and run `npm install`.
 5. Start the React application by running `npm run dev`.
 6. Open `http://localhost:5173/`.
